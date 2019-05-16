@@ -24,3 +24,16 @@ Application will write every processed id into file `processed/id.<NUMBER>`, whe
 # IPv6
 
 Application tested with IPv6 tcp stack.
+
+# Supported cameras
+
+## Full support
+1. Apexis J011WS
+1. Dericam H502W
+
+## Partial support
+1. Sricam Sp017 - take snapshots over ffmpeg
+
+# OS Support
+
+Developed and tested under Ubuntu linux.
