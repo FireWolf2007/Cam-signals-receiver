@@ -1,0 +1,51 @@
+{
+    "ok":true,
+    "result":
+    [
+        {
+            "update_id":20355999,
+            "message":
+            {
+                "message_id":387,
+                "from":{
+                    "id":99945510,
+                    "is_bot":false,
+                    "first_name":"AAAAAAAAA",
+                    "username":"TTTTTTTTTT",
+                    "language_code":"ru"
+                },
+                "chat":{
+                    "id":77777777,
+                    "title":"HOME CAMERA",
+                    "type":"group",
+                    "all_members_are_administrators":true
+                },
+                "date":1549656449,
+                "text":"/a1",
+                "entities":
+                    [
+                        {
+                            "offset":0,
+                            "length":5,
+                            "type":"bot_command"
+                        }
+                    ]
+            }
+        },
+        {
+            "update_id":203550666,
+            "message":
+            {
+                "message_id":388,
+                "from":{
+                    "id":456745674,
+                    "is_bot":false,
+                    "first_name":"BBBBBBBBBBB",
+                    "username":"RRRRRRRRRRR",
+                    "language_code":"ru"
+                },
+                "chat":{
+                    "id":45674562,"title":"HOME CAMERA","type":"group","all_members_are_administrators":true},"date":15477464,"text":"/a2","entities":[{"offset":0,"length":5,"type":"bot_command"}]}
+     }
+     ]
+}

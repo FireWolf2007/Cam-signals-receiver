@@ -1,0 +1,107 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.5.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven { url "http://repo.spring.io/plugins-release" }
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://repo.spring.io/milestone' }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath 'org.jsonschema2pojo:jsonschema2pojo-gradle-plugin:1.0.0'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'war'
+apply plugin: 'jsonschema2pojo'
+
+
+group = 'ru.wolfa.cam.signals.receiver'
+version = '1.0.0'
+sourceCompatibility = 1.8
+//
+targetCompatibility=1.8
+assert System.properties['java.specification.version'] == '1.8'
+
+
+bootWar {
+    mainClassName = 'ru.wolfa.cam.signals.receiver.Application'
+    launchScript()
+}
+
+// Each configuration is set to the default value
+jsonSchema2Pojo {
+    println "Configuring jsonSchema2Pojo"
+    source = [file("${projectDir}/json/answ.json")]
+    targetDirectory = file("${projectDir}/json.out")
+    targetPackage = 'ru.wolfa.cam.signals.receiver'
+    sourceType = 'json'
+}
+
+
+
+apply from: 'gradle/docker.gradle'
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/milestone" }
+}
+
+
+ext {
+    springCloudVersion = 'Finchley.RC2'
+}
+
+dependencies {
+
+    compile('org.springframework.boot:spring-boot-starter-webflux')
+
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.8'
+    compile 'io.projectreactor:reactor-tools:1.0.0.M1'
+    compile 'io.projectreactor.tools:blockhound:1.0.0.M3'
+    testImplementation 'io.projectreactor.tools:blockhound-junit-platform:1.0.0.M3'
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('io.projectreactor:reactor-test')
+    testCompile('org.mockito:mockito-core')
+    testCompile "junit:junit:4.12"
+    testCompile ("org.springframework.boot:spring-boot-starter-test") {
+        exclude group: 'com.vaadin.external.google', module: 'android-json'
+    }
+    testCompile "org.springframework.security:spring-security-test"
+    testCompile "org.springframework.boot:spring-boot-test"
+    testImplementation 'com.squareup.okhttp3:mockwebserver:3.13.1'
+
+}
+
+dependencyManagement {
+    imports {
+        //mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+repositories {
+    mavenLocal()
+    jcenter()
+}
+
+task stage(dependsOn: 'bootWar') {
+
+}
+
+bootRun {
+    systemProperty "java.net.preferIPv6Addresses", true
+}
+
+task bootRunDebug(dependsOn: 'bootRun') {
+    bootRun {
+       jvmArgs=["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5006"]
+    }
+}
