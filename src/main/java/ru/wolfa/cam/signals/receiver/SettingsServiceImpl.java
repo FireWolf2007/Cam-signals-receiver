@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class SettingsServiceImpl implements SettingsService{
+public class SettingsServiceImpl implements SettingsService {
 
     /**
      * Empty by default.<br/>

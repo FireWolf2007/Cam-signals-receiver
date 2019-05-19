@@ -42,7 +42,7 @@ public class CommandParser {
                     + "/enable 1 - включить уведомления на камере 1\n"
                     + "/reset - вернуть все уведомления в исходное состояние\n");
         } else if ("/all".equals(cmd)) {
-            for (int i = 1;i < cameraDriver.getCount() + 1;i++) {
+            for (int i = 1; i < cameraDriver.getCount() + 1; i++) {
                 log.trace("Make shot from cam{}", i);
                 cameraDriver.executeShot(chatId, i);
             }
@@ -50,7 +50,7 @@ public class CommandParser {
             boolean processed = true;
             char cmdKey = cmd.charAt(1);
             int camId = -1;
-            try{
+            try {
                 try {
                     camId = Integer.parseInt(cmd.substring(2));
                 } catch (NumberFormatException e) {
@@ -124,8 +124,7 @@ public class CommandParser {
         }
     }
 
-    public CommandParser(CameraDriver cameraDriver, TelegramSenderServiceImpl sender,
-            SettingsService settings) {
+    public CommandParser(CameraDriver cameraDriver, TelegramSenderServiceImpl sender, SettingsService settings) {
         this.cameraDriver = cameraDriver;
         this.sender = sender;
         this.botName = "@" + sender.getBotName().toLowerCase();

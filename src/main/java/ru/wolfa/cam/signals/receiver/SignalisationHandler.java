@@ -29,6 +29,7 @@ public class SignalisationHandler {
      */
     public Mono<ServerResponse> signalisation(ServerRequest request) {
         log.trace("Incoming ALERT");
+        // On parse error first cam will be used.
         int camId = 1;
         try {
             String camIdParam = request.queryParam(APP_REQUEST_CAM_ID_PARAM).orElse("1");

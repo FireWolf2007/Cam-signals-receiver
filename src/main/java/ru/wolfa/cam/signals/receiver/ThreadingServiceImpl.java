@@ -24,7 +24,7 @@ public class ThreadingServiceImpl {
     }
 
     public void runTasks() {
-        while(true) {
+        while (true) {
             try {
                 synchronized (rejectedTasks) {
                     rejectedTasks.wait(5000L);
