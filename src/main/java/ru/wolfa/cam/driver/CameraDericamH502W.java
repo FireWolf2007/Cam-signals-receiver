@@ -12,6 +12,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import reactor.core.publisher.Mono;
 
+/**
+ * Client for Dericam H502W wifi camera.
+ *
+ * Problems:
+ * 1. Clock synchronization with GMT+3 hardcoded.
+ *
+ */
 public class CameraDericamH502W extends BaseCamera {
     public static final String CMD_PARAM = "dir";
     public static final String CMD_STOP = "stop";

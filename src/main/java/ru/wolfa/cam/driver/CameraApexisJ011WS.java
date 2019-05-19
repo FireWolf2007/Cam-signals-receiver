@@ -15,6 +15,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import reactor.core.publisher.Mono;
 
+/**
+ * Client for Apexis J011WS wifi camera.
+ *
+ * Problems:
+ * 1. Clock synchronization with GMT+3 hardcoded.
+ *
+ */
 public class CameraApexisJ011WS extends BaseCamera {
     public static final String CMD_PARAM = "command";
     public static final String CMD_STOP = "1";

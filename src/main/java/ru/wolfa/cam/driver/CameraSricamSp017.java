@@ -12,6 +12,14 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
+/**
+ * Client for Sricam SP017 wifi camera.
+ *
+ * Problems:
+ * 1. Make snapshots over shell script.
+ * 2. Clock syncrinization does not working.
+ *
+ */
 public class CameraSricamSp017 implements Camera {
 
     private final String ip;
