@@ -1,1 +1,1 @@
-ffmpeg -y -i rtsp://$1:554/onvif1 -vframes 1 $2
+ffmpeg -y -i rtsp://$1:554/onvif1 -vframes 1 -ss 2 $2
