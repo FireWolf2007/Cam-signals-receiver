@@ -6,13 +6,17 @@ import org.slf4j.LoggerFactory;
 import ru.wolfa.cam.driver.CameraDriver;
 import ru.wolfa.cam.signals.receiver.SettingsService;
 import ru.wolfa.telegram.TelegramSenderServiceImpl;
+import org.springframework.stereotype.Service;
+import org.springframework.scheduling.annotation.Async;
 
+@Service
 public class CommandParser {
     private final CameraDriver cameraDriver;
     private final TelegramSenderServiceImpl sender;
     private final String botName;
     private final SettingsService settings;
 
+    @Async
     public void process(String msg, int chatId) {
         String cmd = msg;
         if (cmd != null) {
@@ -43,8 +47,12 @@ public class CommandParser {
                     + "/reset - вернуть все уведомления в исходное состояние\n");
         } else if ("/all".equals(cmd)) {
             for (int i = 1; i < cameraDriver.getCount() + 1; i++) {
-                log.trace("Make shot from cam{}", i);
-                cameraDriver.executeShot(chatId, i);
+                if (cameraDriver.isCameraIncludedInAll(i)) {
+                    log.trace("Make shot from cam{}", i);
+                    cameraDriver.executeShot(chatId, i);
+                } else {
+                    log.trace("Skip snapshotting cam{}", i);
+                }
             }
         } else {
             boolean processed = true;

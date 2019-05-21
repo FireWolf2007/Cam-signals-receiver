@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.EnableAsync;
+
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
@@ -15,6 +17,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @ComponentScan("ru.wolfa")
 @PropertySource(value = "classpath:/application.properties")
 @EnableScheduling
+@EnableAsync
 public class ApplicationConfiguration {
 
     /**

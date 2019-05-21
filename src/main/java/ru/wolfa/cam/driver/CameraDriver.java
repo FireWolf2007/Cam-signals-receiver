@@ -1,5 +1,10 @@
 package ru.wolfa.cam.driver;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
@@ -22,6 +27,13 @@ public class CameraDriver {
             return null;
         }
         return cams[camId - 1];
+    }
+
+    public boolean isCameraIncludedInAll(int camId) {
+        if (camId < 1 || camId > cams.length) {
+            return false;
+        }
+        return cams[camId - 1].includeInAllCommand();
     }
 
     public void callPosition(int chatId, int camId, int position) {
@@ -89,14 +101,24 @@ public class CameraDriver {
             String ip = env.getProperty("cam" + i + ".ip");
             String port = env.getProperty("cam" + i + ".port");
             String camClass = env.getProperty("cam" + i + ".class");
-            if ("CameraApexisJ011WS".equals(camClass)) {
-                cams[i] = new CameraApexisJ011WS(ip, port, camLogin, camPassword);
-            } else if ("CameraDericamH502W".equals(camClass)) {
-                cams[i] = new CameraDericamH502W(ip, port, camLogin, camPassword);
-            } else if ("CameraSricamSp017".equals(camClass)) {
-                cams[i] = new CameraSricamSp017(ip, port, camLogin, camPassword);
-            } else {
-                throw new IllegalArgumentException("Camera class illegal: " + camClass);
+            // get snapshot on /all command
+            boolean camAll = Boolean.parseBoolean(env.getProperty("cam" + i + ".all"));
+            boolean initDone = false;
+            try {
+                Class<?> camClazz = Class.forName("ru.wolfa.cam.driver." + camClass);
+                @SuppressWarnings("unchecked")
+                Constructor<Camera> constructor = (Constructor<Camera>) camClazz.getConstructor(String.class,
+                        String.class, String.class, String.class, boolean.class);
+                if (constructor != null) {
+                    cams[i] = constructor.newInstance(ip, port, camLogin, camPassword, camAll);
+                    initDone = true;
+                }
+            } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+                    | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                log.error("Exception", e);
+            }
+            if (!initDone) {
+                //throw new IllegalArgumentException("Camera class illegal: " + camClass);
             }
         }
         this.sender = sender;

@@ -28,11 +28,13 @@ public class CameraApexisJ011WS extends BaseCamera {
     private final String ip;
     private final String port;
     private final ExchangeFilterFunction authFilter;
+    private final boolean includeInAll;
 
-    public CameraApexisJ011WS(String ip, String port, String login, String password) {
+    public CameraApexisJ011WS(String ip, String port, String login, String password, boolean all) {
         this.port = port;
         this.ip = ip;
         authFilter = basicAuthentication(login, password);
+        this.includeInAll = all;
     }
 
     @Override
@@ -108,6 +110,11 @@ public class CameraApexisJ011WS extends BaseCamera {
                 .bodyToMono(ByteArrayResource.class);
 
         m.subscribe(callback);
+    }
+
+    @Override
+    public boolean includeInAllCommand() {
+        return includeInAll;
     }
 
     private static final Logger log = LoggerFactory.getLogger(CameraApexisJ011WS.class);

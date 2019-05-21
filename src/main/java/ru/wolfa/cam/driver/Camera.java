@@ -20,4 +20,5 @@ public interface Camera {
     void executeCmd(Consumer<ByteArrayResource> callback, String direction, int timeInMillis, String CMD_PARAM,
             String CMD_STOP, String queryPath);
 
+    boolean includeInAllCommand();
 }

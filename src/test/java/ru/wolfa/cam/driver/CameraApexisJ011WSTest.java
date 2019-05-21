@@ -34,7 +34,7 @@ public class CameraApexisJ011WSTest {
         String baseUrl = server.url("/").toString();
         webClient = WebClient.create(baseUrl);
 
-        driver = new CameraApexisJ011WS("1.1.1.1", "89", "ladmin", "lpwd") {
+        driver = new CameraApexisJ011WS("1.1.1.1", "89", "ladmin", "lpwd", true) {
             public WebClient getClient() {
                 return webClient;
             }

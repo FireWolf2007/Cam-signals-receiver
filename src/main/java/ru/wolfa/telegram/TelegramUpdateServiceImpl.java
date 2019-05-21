@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.env.Environment;
@@ -31,7 +32,9 @@ public class TelegramUpdateServiceImpl implements InitializingBean, DisposableBe
 
     private final WebClient client;
     private final TelegramSenderServiceImpl sender;
-    private final CommandParser parser;
+    //private final CommandParser parser;
+    @Autowired
+    private CommandParser parser;
     private final ObjectMapper om = new ObjectMapper();
 
     private volatile boolean quit = false;
@@ -39,7 +42,7 @@ public class TelegramUpdateServiceImpl implements InitializingBean, DisposableBe
     public TelegramUpdateServiceImpl(Environment env, CameraDriver cameraDriver, TelegramSenderServiceImpl sender,
             SettingsService settings) {
         this.sender = sender;
-        this.parser = new CommandParser(cameraDriver, sender, settings);
+        //this.parser = new CommandParser(cameraDriver, sender, settings);
 
         String botId = env.getProperty(CONFIG_TELEGRAM_BOT_ID);
         String botToken = env.getProperty(CONFIG_TELEGRAM_BOT_TOKEN);

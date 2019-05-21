@@ -13,17 +13,19 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 /**
- * Client for Sricam SP017 wifi camera.
+ * Client for onvif wifi camera.
  *
  * Problems:
- * 1. Takes snapshots over shell script.
+ * 1. Make snapshots over shell script.
  * 2. Clock syncrinization does not working.
  *
  */
-public class CameraSricamSp017 implements Camera {
+public class CameraOnvif implements Camera {
 
     private final String ip;
     private final String port;
+    private final String login;
+    private final String password;
     private final boolean includeInAll;
 
     private static final String XML_REQ_PREFIX = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -34,9 +36,11 @@ public class CameraSricamSp017 implements Camera {
     private static final String XML_REQ_SUFFIX = "</tptz:Velocity>" + "</tptz:ContinuousMove>" + "</soap:Body>"
             + "</soap:Envelope>";
 
-    public CameraSricamSp017(String ip, String port, String camLogin, String camPassword, boolean all) {
+    public CameraOnvif(String ip, String port, String camLogin, String camPassword, boolean all) {
         this.ip = ip;
         this.port = port;
+        this.login = camLogin;
+        this.password = camPassword;
         this.includeInAll = all;
     }
 
@@ -65,7 +69,7 @@ public class CameraSricamSp017 implements Camera {
     public void executeShot(Consumer<ByteArrayResource> callback) {
         String fileName = "/tmp/ONVIF_tmp_" + rnd.nextInt() + ".jpg";
         try {
-            Process process = Runtime.getRuntime().exec("./scripts/shot_sricam_sp017 " + ip + " " + fileName);
+            Process process = Runtime.getRuntime().exec("./scripts/shot_onvif " + ip + " " + port  + " " + fileName + " " + login + ":" + password);
             process.waitFor();
             File f = new File(fileName);
             ByteArrayResource r = new ByteArrayResource(Files.readAllBytes(f.toPath()));
@@ -120,5 +124,5 @@ public class CameraSricamSp017 implements Camera {
         return includeInAll;
     }
 
-    private static final Logger log = LoggerFactory.getLogger(CameraSricamSp017.class);
+    private static final Logger log = LoggerFactory.getLogger(CameraOnvif.class);
 }

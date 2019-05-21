@@ -16,3 +16,4 @@ cam2.port=80
 cam2.login=ra
 cam2.password=ddd
 cam2.class=CameraDericamH502W
+cam2.all=true

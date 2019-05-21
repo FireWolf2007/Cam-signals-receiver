@@ -34,7 +34,7 @@ public class CameraDericamH502WTest {
         String baseUrl = server.url("/").toString();
         webClient = WebClient.create(baseUrl);
 
-        driver = new CameraDericamH502W("1.1.1.1", "89", "ladmin", "lpwd") {
+        driver = new CameraDericamH502W("1.1.1.1", "89", "ladmin", "lpwd", true) {
             public WebClient getClient() {
                 return webClient;
             }

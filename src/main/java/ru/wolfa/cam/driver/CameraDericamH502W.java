@@ -25,13 +25,15 @@ public class CameraDericamH502W extends BaseCamera {
     private final String cookie;
     private final String ip;
     private final String port;
+    private final boolean includeInAll;
 
-    public CameraDericamH502W(String ip, String port, String login, String password) {
+    public CameraDericamH502W(String ip, String port, String login, String password, boolean all) {
         cookie = "bRememberMe=0; userLastLogin=; passwordLastLogin=; bShowMenu=1; usrLevel=0; user=" + login
                 + "; password=" + password + "; usr=" + login + "; pwd=" + password;
 
         this.port = port;
         this.ip = ip;
+        this.includeInAll = all;
     }
 
     @Override
@@ -75,6 +77,11 @@ public class CameraDericamH502W extends BaseCamera {
                 .uri(builder -> builder.queryParams(map).path("/setntp.xml").build()).retrieve()
                 .bodyToMono(ByteArrayResource.class);
         m.subscribe(callback);
+    }
+
+    @Override
+    public boolean includeInAllCommand() {
+        return includeInAll;
     }
 
     private static final Logger log = LoggerFactory.getLogger(CameraDericamH502W.class);
