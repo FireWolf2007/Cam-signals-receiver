@@ -14,7 +14,7 @@ import ru.wolfa.cam.driver.CameraDriver;
 import static ru.wolfa.cam.signals.receiver.ApplicationConstants.*;
 
 @Service
-public class SignalisationHandler {
+public class SignalizationHandler {
     private final CameraDriver cameraDriver;
     private final SettingsService settings;
     private final ThreadingServiceImpl executor = new ThreadingServiceImpl();
@@ -23,7 +23,6 @@ public class SignalisationHandler {
 
     /**
      * 
-     * @param signal
      * @return
      * @throws IOException
      */
@@ -46,7 +45,7 @@ public class SignalisationHandler {
         return Mono.empty();
     }
 
-    public SignalisationHandler(Environment env, CameraDriver cameraDriver, SettingsService settings) {
+    public SignalizationHandler(Environment env, CameraDriver cameraDriver, SettingsService settings) {
         if (!"true".equals(System.getProperty("java.net.preferIPv6Stack"))) {
             log.error("Switch on IPv6 prefer: -Djava.net.preferIPv6Stack=true. Current state: {}",
                     System.getProperty("java.net.preferIPv6Stack"));
@@ -58,5 +57,5 @@ public class SignalisationHandler {
         this.settings = settings;
     }
 
-    private static final Logger log = LoggerFactory.getLogger(SignalisationHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(SignalizationHandler.class);
 }

@@ -4,15 +4,14 @@ import java.io.IOException;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CameraApexisJ011WSTest {
     private CameraApexisJ011WS driver;
@@ -21,12 +20,12 @@ public class CameraApexisJ011WSTest {
 
     private WebClient webClient;
 
-    @After
+    @AfterEach
     public void shutdown() throws Exception {
         this.server.shutdown();
     }
 
-    @Before
+    @BeforeEach
     public void initTest() throws IOException {
         server = new MockWebServer();
         server.enqueue(new MockResponse().setResponseCode(200).setBody("1"));
@@ -58,9 +57,9 @@ public class CameraApexisJ011WSTest {
         String req = request.getPath();
         int i = req.indexOf("?");
         req = req.substring(0, i);
-        Assert.assertEquals("/set_datetime.cgi", req);
-        Assert.assertEquals(1, server.getRequestCount());
-        Assert.assertEquals(1, a.get());
+        assertEquals("/set_datetime.cgi", req);
+        assertEquals(1, server.getRequestCount());
+        assertEquals(1, a.get());
     }
 
     @Test
@@ -78,9 +77,9 @@ public class CameraApexisJ011WSTest {
         }
         RecordedRequest request = server.takeRequest();
         String req = request.getPath();
-        Assert.assertEquals("/snapshot.cgi", req);
-        Assert.assertEquals(1, server.getRequestCount());
-        Assert.assertEquals(1, a.get());
+        assertEquals("/snapshot.cgi", req);
+        assertEquals(1, server.getRequestCount());
+        assertEquals(1, a.get());
     }
 
     @Test
@@ -90,7 +89,7 @@ public class CameraApexisJ011WSTest {
         driver.callPosition(v -> a.incrementAndGet(), 0);
         // 16 position
         driver.callPosition(v -> a.incrementAndGet(), 16);
-        Assert.assertEquals(0, a.get());
+        assertEquals(0, a.get());
     }
 
     @Test
@@ -108,9 +107,9 @@ public class CameraApexisJ011WSTest {
         }
         RecordedRequest request = server.takeRequest();
         String req = request.getPath();
-        Assert.assertEquals("/decoder_control.cgi?command=31", req);
-        Assert.assertEquals(1, server.getRequestCount());
-        Assert.assertEquals(1, a.get());
+        assertEquals("/decoder_control.cgi?command=31", req);
+        assertEquals(1, server.getRequestCount());
+        assertEquals(1, a.get());
     }
 
     @Test
@@ -128,9 +127,9 @@ public class CameraApexisJ011WSTest {
         }
         RecordedRequest request = server.takeRequest();
         String req = request.getPath();
-        Assert.assertEquals("/decoder_control.cgi?command=59", req);
-        Assert.assertEquals(1, server.getRequestCount());
-        Assert.assertEquals(1, a.get());
+        assertEquals("/decoder_control.cgi?command=59", req);
+        assertEquals(1, server.getRequestCount());
+        assertEquals(1, a.get());
     }
 
     @Test
@@ -146,15 +145,15 @@ public class CameraApexisJ011WSTest {
         synchronized (a) {
             a.wait(10000L);
         }
-        Assert.assertEquals(1, a.get());
-        Assert.assertEquals(2, server.getRequestCount());
+        assertEquals(1, a.get());
+        assertEquals(2, server.getRequestCount());
         RecordedRequest request = server.takeRequest();
         String req = request.getPath();
-        Assert.assertEquals("/decoder_control.cgi?command=4", req);
+        assertEquals("/decoder_control.cgi?command=4", req);
 
         request = server.takeRequest();
         req = request.getPath();
-        Assert.assertEquals("/decoder_control.cgi?command=1", req);
+        assertEquals("/decoder_control.cgi?command=1", req);
     }
 
     @Test
@@ -170,15 +169,15 @@ public class CameraApexisJ011WSTest {
         synchronized (a) {
             a.wait(10000L);
         }
-        Assert.assertEquals(1, a.get());
-        Assert.assertEquals(2, server.getRequestCount());
+        assertEquals(1, a.get());
+        assertEquals(2, server.getRequestCount());
         RecordedRequest request = server.takeRequest();
         String req = request.getPath();
-        Assert.assertEquals("/decoder_control.cgi?command=6", req);
+        assertEquals("/decoder_control.cgi?command=6", req);
 
         request = server.takeRequest();
         req = request.getPath();
-        Assert.assertEquals("/decoder_control.cgi?command=1", req);
+        assertEquals("/decoder_control.cgi?command=1", req);
     }
 
     @Test
@@ -194,15 +193,15 @@ public class CameraApexisJ011WSTest {
         synchronized (a) {
             a.wait(10000L);
         }
-        Assert.assertEquals(1, a.get());
-        Assert.assertEquals(2, server.getRequestCount());
+        assertEquals(1, a.get());
+        assertEquals(2, server.getRequestCount());
         RecordedRequest request = server.takeRequest();
         String req = request.getPath();
-        Assert.assertEquals("/decoder_control.cgi?command=0", req);
+        assertEquals("/decoder_control.cgi?command=0", req);
 
         request = server.takeRequest();
         req = request.getPath();
-        Assert.assertEquals("/decoder_control.cgi?command=1", req);
+        assertEquals("/decoder_control.cgi?command=1", req);
     }
 
     @Test
@@ -218,15 +217,15 @@ public class CameraApexisJ011WSTest {
         synchronized (a) {
             a.wait(10000L);
         }
-        Assert.assertEquals(1, a.get());
-        Assert.assertEquals(2, server.getRequestCount());
+        assertEquals(1, a.get());
+        assertEquals(2, server.getRequestCount());
         RecordedRequest request = server.takeRequest();
         String req = request.getPath();
-        Assert.assertEquals("/decoder_control.cgi?command=2", req);
+        assertEquals("/decoder_control.cgi?command=2", req);
 
         request = server.takeRequest();
         req = request.getPath();
-        Assert.assertEquals("/decoder_control.cgi?command=1", req);
+        assertEquals("/decoder_control.cgi?command=1", req);
     }
 
 }

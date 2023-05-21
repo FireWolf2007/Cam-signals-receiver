@@ -3,15 +3,17 @@ package ru.wolfa.cam.driver;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CameraDericamH502WTest {
 
@@ -21,12 +23,12 @@ public class CameraDericamH502WTest {
 
     private WebClient webClient;
 
-    @After
+    @AfterEach
     public void shutdown() throws Exception {
         this.server.shutdown();
     }
 
-    @Before
+    @BeforeEach
     public void initTest() throws IOException {
         server = new MockWebServer();
         server.enqueue(new MockResponse().setResponseCode(200).setBody("1"));
@@ -58,9 +60,9 @@ public class CameraDericamH502WTest {
         String req = request.getPath();
         int i = req.indexOf("?");
         req = req.substring(0, i);
-        Assert.assertEquals("/setntp.xml", req);
-        Assert.assertEquals(1, server.getRequestCount());
-        Assert.assertEquals(1, a.get());
+        assertEquals("/setntp.xml", req);
+        assertEquals(1, server.getRequestCount());
+        assertEquals(1, a.get());
 
     }
 
@@ -79,9 +81,9 @@ public class CameraDericamH502WTest {
         }
         RecordedRequest request = server.takeRequest();
         String req = request.getPath();
-        Assert.assertEquals("/snap.jpg", req);
-        Assert.assertEquals(1, server.getRequestCount());
-        Assert.assertEquals(1, a.get());
+        assertEquals("/snap.jpg", req);
+        assertEquals(1, server.getRequestCount());
+        assertEquals(1, a.get());
     }
 
     @Test
@@ -97,15 +99,15 @@ public class CameraDericamH502WTest {
         synchronized (a) {
             a.wait(10000L);
         }
-        Assert.assertEquals(1, a.get());
-        Assert.assertEquals(2, server.getRequestCount());
+        assertEquals(1, a.get());
+        assertEquals(2, server.getRequestCount());
         RecordedRequest request = server.takeRequest();
         String req = request.getPath();
-        Assert.assertEquals("/moveptz.xml?dir=left", req);
+        assertEquals("/moveptz.xml?dir=left", req);
 
         request = server.takeRequest();
         req = request.getPath();
-        Assert.assertEquals("/moveptz.xml?dir=stop", req);
+        assertEquals("/moveptz.xml?dir=stop", req);
     }
 
     @Test
@@ -121,15 +123,15 @@ public class CameraDericamH502WTest {
         synchronized (a) {
             a.wait(10000L);
         }
-        Assert.assertEquals(1, a.get());
-        Assert.assertEquals(2, server.getRequestCount());
+        assertEquals(1, a.get());
+        assertEquals(2, server.getRequestCount());
         RecordedRequest request = server.takeRequest();
         String req = request.getPath();
-        Assert.assertEquals("/moveptz.xml?dir=right", req);
+        assertEquals("/moveptz.xml?dir=right", req);
 
         request = server.takeRequest();
         req = request.getPath();
-        Assert.assertEquals("/moveptz.xml?dir=stop", req);
+        assertEquals("/moveptz.xml?dir=stop", req);
     }
 
     @Test
@@ -145,15 +147,15 @@ public class CameraDericamH502WTest {
         synchronized (a) {
             a.wait(10000L);
         }
-        Assert.assertEquals(1, a.get());
-        Assert.assertEquals(2, server.getRequestCount());
+        assertEquals(1, a.get());
+        assertEquals(2, server.getRequestCount());
         RecordedRequest request = server.takeRequest();
         String req = request.getPath();
-        Assert.assertEquals("/moveptz.xml?dir=up", req);
+        assertEquals("/moveptz.xml?dir=up", req);
 
         request = server.takeRequest();
         req = request.getPath();
-        Assert.assertEquals("/moveptz.xml?dir=stop", req);
+        assertEquals("/moveptz.xml?dir=stop", req);
     }
 
     @Test
@@ -169,15 +171,15 @@ public class CameraDericamH502WTest {
         synchronized (a) {
             a.wait(10000L);
         }
-        Assert.assertEquals(1, a.get());
-        Assert.assertEquals(2, server.getRequestCount());
+        assertEquals(1, a.get());
+        assertEquals(2, server.getRequestCount());
         RecordedRequest request = server.takeRequest();
         String req = request.getPath();
-        Assert.assertEquals("/moveptz.xml?dir=down", req);
+        assertEquals("/moveptz.xml?dir=down", req);
 
         request = server.takeRequest();
         req = request.getPath();
-        Assert.assertEquals("/moveptz.xml?dir=stop", req);
+        assertEquals("/moveptz.xml?dir=stop", req);
     }
 
 }

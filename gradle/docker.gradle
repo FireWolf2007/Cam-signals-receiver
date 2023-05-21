@@ -21,7 +21,15 @@ task copyDockerFiles(type: Copy) {
     exclude "**/*.yml"
 }
 
-task buildDocker(type: DockerBuildImage, dependsOn: 'copyDockerFiles') {
+task copyShFiles(type: Copy) {
+    description = "Copy Dockerfile and required data to build directory"
+    from 'scripts'
+    into { "${project.buildDir}/docker" }
+    include "shot_onvif"
+    include "shot_sricam_sp017"
+}
+
+task buildDocker(type: DockerBuildImage, dependsOn: ['copyDockerFiles', 'copyShFiles']) {
     description = "Package application as Docker image"
     group = "Docker"
     inputDir = project.file("${project.buildDir}/docker")

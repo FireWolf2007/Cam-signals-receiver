@@ -57,6 +57,14 @@ public class CameraSricamSp017 implements Camera {
         log.trace("callPosition not implemented");
         ByteArrayResource t = new ByteArrayResource(new byte[] {});
         callback.accept(t);
+        /*
+          String msg = "<s:Envelope xmlns:s=\"http://www.w3.org/2003/05/soap-envelope\">" +
+          "<s:Body xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">" +
+          "<GotoPreset xmlns=\"http://www.onvif.org/ver20/ptz/wsdl\">" +
+          "<ProfileToken>' . $profileToken . '</ProfileToken>" + 
+          "<PresetToken>" + position + "</PresetToken></GotoPreset></s:Body></s:Envelope>";
+          String content_type = 'application/soap+xml; charset=utf-8; action="http://www.onvif.org/ver20/ptz/wsdl/GotoPreset"';
+        */
     }
 
     private final static Random rnd = new Random();

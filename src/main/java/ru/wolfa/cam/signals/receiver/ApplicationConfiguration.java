@@ -26,7 +26,7 @@ public class ApplicationConfiguration {
      * @return
      */
     @Bean
-    public RouterFunction<ServerResponse> router(SignalisationHandler handler) {
+    public RouterFunction<ServerResponse> router(SignalizationHandler handler) {
         return RouterFunctions.route(GET("/cam/alarm.do"), a -> handler.signalisation(a));
     }
 

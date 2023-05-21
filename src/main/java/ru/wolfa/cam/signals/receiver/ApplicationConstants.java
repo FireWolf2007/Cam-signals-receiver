@@ -9,6 +9,7 @@ public final class ApplicationConstants {
     public final static String APP_REQUEST_CAM_ID_PARAM = "camId";
 
     public final static String TELEGRAM_BOT_URL = "https://api.telegram.org/bot";
+    //public final static String TELEGRAM_BOT_URL = "http://192.168.0.121:9099/bot";
 
     public final static String TELEGRAM_REQUEST_CHAT_ID_PARAM = "chat_id";
     public final static String TELEGRAM_REQUEST_PHOTO_PARAM = "photo";
